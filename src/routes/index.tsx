@@ -1,9 +1,228 @@
 import { createFileRoute } from '@tanstack/react-router'
+import { useState } from 'react'
+import {
+  ArrowDown,
+  ArrowRight,
+  Brain,
+  Check,
+  ChevronDown,
+  Cpu,
+  Layers3,
+  Lightbulb,
+  LockKeyhole,
+  Menu,
+  Network,
+  Sparkles,
+  Target,
+  X,
+  Zap,
+} from 'lucide-react'
+import type { ReactNode } from 'react'
+import './neuroleitura.css'
 
 export const Route = createFileRoute('/')({
-  component: BlankPage,
+  component: NeuroLeitura,
 })
 
-function BlankPage() {
-  return <main className="min-h-screen bg-white" />
+const scrollToPlans = () => {
+  document.getElementById('planos')?.scrollIntoView({ behavior: 'smooth' })
+}
+
+const scrollTo = (id: string) => {
+  document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
+}
+
+const IconBox = ({ children }: { children: ReactNode }) => <div className="nl-icon">{children}</div>
+
+function NeuroLeitura() {
+  const [menuOpen, setMenuOpen] = useState(false)
+  const [openFaq, setOpenFaq] = useState<number | null>(null)
+
+  const menu = [
+    ['Como funciona', 'metodo'],
+    ['Experiência', 'jornada'],
+    ['NeuroFlix', 'neuroflix'],
+    ['Workshops', 'workshops'],
+    ['Inteligência Artificial', 'ia'],
+    ['Planos', 'planos'],
+    ['Dúvidas', 'duvidas'],
+  ]
+
+  const faq = [
+    ['O NeuroLeitura é um aplicativo de resumos?', 'Não. A proposta não é simplesmente condensar livros. O Método NeuroLeitura busca decodificar aspectos psicológicos e extrair ensinamentos práticos das obras para transformá-los em reflexão e aplicação.'],
+    ['O que é o NeuroFlix?', 'É uma jornada de autoconhecimento construída capítulo por capítulo através dos livros. Não é resumo, resenha ou leitura do capítulo. Utilizamos o Método NeuroLeitura para explorar os ensinamentos e suas aplicações práticas.'],
+    ['Existem novos conteúdos?', 'A proposta inclui workshops semanais nos quais um novo livro é decodificado através do Método NeuroLeitura.'],
+    ['Posso acessar pelo celular?', 'O ecossistema inclui o aplicativo Instituto NeuroConsciência e a experiência web deve funcionar perfeitamente em dispositivos móveis.'],
+    ['Quanto custa?', 'Existem duas modalidades: R$ 26 por mês ou acesso anual por 12x de R$ 20,37 ou R$ 197 à vista.'],
+  ]
+
+  return (
+    <div className="nl-page">
+      <header className="nl-header">
+        <button className="nl-brand" onClick={() => scrollTo('hero')} aria-label="NeuroLeitura">
+          NEUROLEITURA
+        </button>
+        <nav className={menuOpen ? 'nl-nav open' : 'nl-nav'}>
+          {menu.map(([label, id]) => (
+            <button key={id} onClick={() => { scrollTo(id); setMenuOpen(false) }}>{label}</button>
+          ))}
+        </nav>
+        <button className="nl-cta nl-header-cta" onClick={scrollToPlans}>QUERO FAZER PARTE</button>
+        <button className="nl-menu" onClick={() => setMenuOpen(!menuOpen)} aria-label="Abrir menu">
+          {menuOpen ? <X size={21} /> : <Menu size={21} />}
+        </button>
+      </header>
+
+      <main>
+        <section id="hero" className="nl-hero nl-section">
+          <div className="nl-glow glow-one" />
+          <div className="nl-glow glow-two" />
+          <div className="nl-kicker"><Sparkles size={14} /> MÉTODO NEUROLEITURA</div>
+          <h1>VOCÊ NÃO PRECISA LER MAIS LIVROS</h1>
+          <h2>PRECISA APRENDER A <span>EXTRAIR MAIS DELES</span></h2>
+          <p className="nl-lead">Transforme grandes livros em experiências práticas de desenvolvimento humano para compreender ideias profundas, identificar a psicologia por trás delas e levar seus ensinamentos para a vida.</p>
+          <div className="nl-flow"><span>LER</span><ArrowRight /><span>DECODIFICAR</span><ArrowRight /><span>COMPREENDER</span><ArrowRight /><span>APLICAR</span></div>
+          <p className="nl-highlight">Um novo livro. Toda semana. Uma nova oportunidade de evolução.</p>
+          <div className="nl-actions"><button className="nl-cta" onClick={scrollToPlans}>QUERO CONHECER O NEUROLEITURA</button><button className="nl-ghost" onClick={() => scrollTo('metodo')}>DESCOBRIR COMO FUNCIONA <ArrowDown size={16} /></button></div>
+          <p className="nl-price-note">Planos a partir de R$ 26/mês</p>
+        </section>
+
+        <section className="nl-section nl-problem">
+          <div className="nl-eyebrow">O PROBLEMA</div>
+          <h2>QUANTOS LIVROS VOCÊ JÁ LEU...</h2>
+          <h3>E QUANTO REALMENTE MUDOU DEPOIS DELES?</h3>
+          <div className="nl-reading-flow">
+            {['Você lê', 'Marca trechos', 'Salva frases', 'Termina inspirado', 'O tempo passa', 'Grande parte daquele conhecimento desaparece'].map((item, i) => (
+              <div className={i === 5 ? 'nl-flow-card final' : 'nl-flow-card'} key={item}><span>{i + 1}</span><strong>{item}</strong>{i < 5 && <ArrowDown size={17} />}</div>
+            ))}
+          </div>
+          <p className="nl-copy">O problema não está necessariamente na quantidade de livros que você lê.<br /><b>Está na forma como transforma leitura em compreensão e compreensão em ação.</b></p>
+          <div className="nl-impact">INFORMAÇÃO NÃO TRANSFORMA UMA VIDA QUANDO PERMANECE APENAS COMO INFORMAÇÃO.</div>
+        </section>
+
+        <section id="metodo" className="nl-section">
+          <div className="nl-eyebrow">O MÉTODO</div>
+          <h2>É AQUI QUE COMEÇA O MÉTODO NEUROLEITURA</h2>
+          <p className="nl-copy">O NeuroLeitura foi criado para ir além da leitura tradicional.<br /><br />Em vez de simplesmente resumir um livro, buscamos compreender sua arquitetura de ideias, decodificar os aspectos psicológicos presentes na obra e transformar seus principais ensinamentos em conhecimento aplicável.</p>
+          <div className="nl-method-grid">
+            {[
+              ['01', 'LER', 'Entrar em contato com as ideias da obra.'],
+              ['02', 'DECODIFICAR', 'Identificar padrões, princípios, comportamentos e mecanismos presentes no conteúdo.'],
+              ['03', 'COMPREENDER', 'Conectar os ensinamentos com situações reais da vida.'],
+              ['04', 'APLICAR', 'Transformar conhecimento em decisões, comportamentos e práticas.'],
+            ].map(([num, title, text], i) => <div className="nl-method-card" key={num}><span>{num}</span><IconBox>{i === 0 ? <Lightbulb /> : i === 1 ? <Brain /> : i === 2 ? <Target /> : <Zap />}</IconBox><h3>{title}</h3><p>{text}</p>{i < 3 && <ArrowRight className="nl-card-arrow" />}</div>)}
+          </div>
+          <p className="nl-closing">Não é sobre terminar mais livros.<br /><b>É sobre permitir que os livros continuem trabalhando em você depois da última página.</b></p>
+          <button className="nl-cta" onClick={scrollToPlans}>QUERO VIVER ESSA EXPERIÊNCIA</button>
+        </section>
+
+        <section id="experiencia" className="nl-section nl-ecosystem">
+          <div className="nl-eyebrow">O ECOSSISTEMA</div>
+          <h2>MUITO MAIS QUE CONTEÚDO SOBRE LIVROS</h2>
+          <p className="nl-subtitle">Um ecossistema criado para transformar conhecimento em evolução contínua.</p>
+          <div className="nl-ecosystem-grid">
+            {[
+              ['01', 'ÁREA DE MEMBROS PREMIUM', 'Um ambiente organizado para acessar os conteúdos, treinamentos, jornadas e experiências do NeuroLeitura.', Layers3],
+              ['02', 'APLICATIVO INSTITUTO NEUROCONSCIÊNCIA', 'Tenha o Instituto NeuroConsciência com você para acompanhar sua jornada de conhecimento e desenvolvimento.', Cpu],
+              ['03', 'ÁREA BÔNUS DE EVOLUÇÃO', 'Conteúdos complementares para ampliar sua jornada de desenvolvimento e aplicação.', Sparkles],
+              ['04', 'MENTOR I.A NEUROCONSCIÊNCIA', 'Uma inteligência artificial conversacional criada para apoiar sua experiência dentro do ecossistema NeuroConsciência.', Brain],
+              ['05', 'I.A DECODIFICADOR DE LIVROS', 'Uma inteligência artificial voltada à exploração e decodificação dos ensinamentos dos livros.', Network],
+            ].map(([num, title, text, I]: any) => <article className="nl-eco-card" key={num}><span className="nl-card-num">{num}</span><IconBox><I /></IconBox><h3>{title}</h3><p>{text}</p></article>)}
+            <article id="workshops" className="nl-eco-card nl-workshop"><span className="nl-card-num">06</span><IconBox><Zap /></IconBox><p className="nl-mini-title">WORKSHOPS NEUROLEITURA</p><h3>UM NOVO LIVRO TODA SEMANA</h3><p>Toda semana decodificamos um novo livro através do Método NeuroLeitura.</p><p>Não é simplesmente descobrir o que o livro diz.<br />É investigar seus ensinamentos, compreender suas implicações e transformar conhecimento em aplicação prática.</p></article>
+            <article id="neuroflix" className="nl-eco-card nl-neuroflix"><span className="nl-card-num">07</span><IconBox><Sparkles /></IconBox><p className="nl-mini-title">NEUROFLIX</p><h3>UMA JORNADA DE AUTOCONHECIMENTO CAPÍTULO POR CAPÍTULO</h3><p>O NeuroFlix transforma cada livro em uma jornada de desenvolvimento e autoconhecimento.</p><div className="nl-pills"><span>NÃO É RESUMO.</span><span>NÃO É RESENHA.</span><span>NÃO É LEITURA DO CAPÍTULO.</span></div><p>Aqui usamos o Método NeuroLeitura para decodificar capítulo por capítulo, investigar a psicologia presente nas ideias e extrair ensinamentos práticos para colocar em prática na vida.</p><div className="nl-book-ui"><span>LIVRO</span><div>Capítulo 01 — Decodificado</div><div>Capítulo 02 — Decodificado</div><div>Capítulo 03 — Sua próxima descoberta</div><div>Capítulo 04 — Continue sua jornada</div></div><button className="nl-cta" onClick={scrollToPlans}>QUERO ACESSAR O NEUROFLIX</button></article>
+          </div>
+        </section>
+
+        <section id="jornada" className="nl-section nl-journey">
+          <div className="nl-eyebrow">A JORNADA</div>
+          <h2>VOCÊ ENTRA PELO LIVRO</h2>
+          <h3>MAS A JORNADA É SOBRE VOCÊ</h3>
+          <div className="nl-journey-line">
+            {['LIVRO', 'IDEIAS', 'PSICOLOGIA', 'AUTOCONHECIMENTO', 'APLICAÇÃO', 'TRANSFORMAÇÃO'].map((item, i) => <div key={item} className="nl-journey-step"><span>{String(i + 1).padStart(2, '0')}</span><strong>{item}</strong>{i < 5 && <ArrowDown />}</div>)}
+          </div>
+          <p className="nl-copy">Cada obra se transforma em uma oportunidade para observar comportamentos, crenças, decisões, relações e padrões sob uma nova perspectiva.</p>
+          <div className="nl-dual-statement"><span>O LIVRO É O PONTO DE PARTIDA.</span><b>A VIDA É O LUGAR DA APLICAÇÃO.</b></div>
+        </section>
+
+        <section id="ia" className="nl-section">
+          <div className="nl-eyebrow">INTELIGÊNCIA ARTIFICIAL</div>
+          <h2>CONHECIMENTO HUMANO POTENCIALIZADO POR INTELIGÊNCIA ARTIFICIAL</h2>
+          <div className="nl-chat-grid">
+            <article className="nl-chat"><div className="nl-chat-head"><IconBox><Brain /></IconBox><div><b>MENTOR I.A NEUROCONSCIÊNCIA</b><small>Conversação para sua jornada</small></div></div><div className="nl-bubble user"><span>VOCÊ</span>Estou estudando um conceito e quero entender como aplicá-lo à minha vida.</div><div className="nl-bubble ai"><span>MENTOR I.A</span>Vamos transformar esse conceito em uma reflexão prática e explorar como ele pode se relacionar com situações da sua realidade.</div></article>
+            <article className="nl-chat"><div className="nl-chat-head"><IconBox><Network /></IconBox><div><b>I.A DECODIFICADOR DE LIVROS</b><small>Exploração e decodificação</small></div></div><div className="nl-bubble user"><span>VOCÊ</span>Quero compreender melhor um ensinamento deste livro.</div><div className="nl-bubble ai"><span>DECODIFICADOR</span>Vamos investigar a ideia, seu contexto e os possíveis ensinamentos que podem ser extraídos dela.</div></article>
+          </div>
+        </section>
+
+        <section className="nl-section nl-access">
+          <div className="nl-eyebrow">TUDO EM UM ÚNICO ACESSO</div>
+          <h2>UM ECOSSISTEMA INTEIRO PARA SUA EVOLUÇÃO</h2>
+          <div className="nl-checklist">{['Área de membros premium', 'Aplicativo Instituto NeuroConsciência', 'Área Bônus de Evolução', 'Mentor I.A NeuroConsciência', 'I.A Decodificador de Livros', 'Workshops semanais', 'NeuroFlix'].map(item => <div key={item}><Check />{item}</div>)}</div>
+          <p className="nl-closing">Tudo conectado por uma única ideia: <b>transformar conhecimento em desenvolvimento.</b></p>
+          <button className="nl-cta" onClick={scrollToPlans}>QUERO ENTRAR PARA O NEUROLEITURA</button>
+        </section>
+
+        <section className="nl-section nl-difference">
+          <div className="nl-eyebrow">DIFERENCIAÇÃO</div>
+          <h2>O QUE TORNA O NEUROLEITURA DIFERENTE?</h2>
+          <div className="nl-compare"><div className="nl-compare-side passive"><span>APENAS CONSUMIR</span>{['Ler', 'Assistir', 'Salvar', 'Esquecer'].map(x => <p key={x}><X />{x}</p>)}</div><div className="nl-vs">VERSUS</div><div className="nl-compare-side active"><span>NEUROLEITURA</span>{['Decodificar', 'Questionar', 'Compreender', 'Aplicar', 'Evoluir'].map(x => <p key={x}><Check />{x}</p>)}</div></div>
+          <p className="nl-copy">Porque o valor de um livro não está apenas no que você terminou de ler.<br /><b>Está no que consegue levar dele para a vida.</b></p>
+        </section>
+
+        <section id="planos" className="nl-section nl-plans">
+          <div className="nl-eyebrow">PLANOS</div>
+          <h2>ESCOLHA COMO QUER COMEÇAR SUA JORNADA</h2>
+          <p className="nl-subtitle">Duas formas de entrar. A mesma experiência NeuroLeitura.</p>
+          <div className="nl-plan-grid">
+            <article className="nl-plan"><p className="nl-plan-label">PLANO MENSAL</p><h3>ACESSO MENSAL</h3><div className="nl-plan-price">R$ 26 <small>por mês</small></div><PlanFeatures /><a className="nl-cta nl-plan-button" href="https://pay.kiwify.com.br/C5gmznh">COMEÇAR COM O PLANO MENSAL</a></article>
+            <article className="nl-plan featured"><div className="nl-featured-badge">12 MESES DE ACESSO</div><p className="nl-plan-label">PLANO ANUAL</p><h3>ACESSO ANUAL</h3><div className="nl-plan-price">12x DE R$ 20,37</div><p className="nl-cash">ou R$ 197 à vista</p><PlanFeatures /><a className="nl-cta nl-plan-button" href="https://pay.kiwify.com.br/5Ky3Pp8">QUERO MEU ACESSO ANUAL</a></article>
+          </div>
+          <div className="nl-secure"><LockKeyhole size={16} /> Pagamento processado em ambiente seguro pela Kiwify.</div>
+        </section>
+
+        <section className="nl-section nl-for-who">
+          <div className="nl-eyebrow">PARA QUEM É</div>
+          <h2>O NEUROLEITURA É PARA QUEM ACREDITA QUE UM LIVRO PODE SER MUITO MAIS QUE INFORMAÇÃO</h2>
+          <div className="nl-who-grid">{['Gostam de livros e desenvolvimento humano.', 'Querem extrair mais das obras que estudam.', 'Desejam transformar conhecimento em aplicação.', 'Buscam desenvolver maior consciência sobre pensamentos e comportamentos.', 'Querem uma jornada contínua de desenvolvimento pessoal.', 'Desejam utilizar inteligência artificial como apoio à aprendizagem.', 'Acreditam que um grande livro pode continuar ensinando muito depois da última página.'].map((x, i) => <div key={x}><span>{String(i + 1).padStart(2, '0')}</span><p>{x}</p></div>)}</div>
+        </section>
+
+        <section className="nl-section nl-future">
+          <div className="nl-eyebrow">VISÃO DE FUTURO</div>
+          <h2>IMAGINE O QUE ACONTECE QUANDO VOCÊ PARA DE APENAS ACUMULAR LIVROS...</h2>
+          <h3>E COMEÇA A ACUMULAR TRANSFORMAÇÕES.</h3>
+          <div className="nl-future-steps">{['Um livro pode apresentar uma ideia.', 'Uma ideia pode mudar uma percepção.', 'Uma nova percepção pode mudar uma decisão.', 'E decisões repetidas podem mudar uma trajetória.'].map((x, i) => <div key={x}><span>0{i + 1}</span><p>{x}</p></div>)}</div>
+          <p className="nl-copy">Essa é a proposta do NeuroLeitura.<br /><b>Transformar livros em ferramentas para compreender melhor a si mesmo e a própria vida.</b></p>
+          <button className="nl-cta" onClick={scrollToPlans}>COMEÇAR MINHA JORNADA</button>
+        </section>
+
+        <section id="duvidas" className="nl-section nl-faq">
+          <div className="nl-eyebrow">DÚVIDAS</div>
+          <h2>PERGUNTAS FREQUENTES</h2>
+          <div className="nl-faq-list">{faq.map(([q, a], i) => <div className={openFaq === i ? 'nl-faq-item open' : 'nl-faq-item'} key={q}><button onClick={() => setOpenFaq(openFaq === i ? null : i)}><span>{q}</span><ChevronDown /></button>{openFaq === i && <div className="nl-faq-answer">{a}</div>}</div>)}</div>
+          <button className="nl-ghost" onClick={scrollToPlans}>VER PLANOS <ArrowRight size={16} /></button>
+        </section>
+
+        <section className="nl-section nl-final">
+          <div className="nl-final-orb" />
+          <div className="nl-eyebrow">A PRÓXIMA PÁGINA</div>
+          <h2>O PRÓXIMO LIVRO PODE SER APENAS MAIS UM LIVRO.</h2>
+          <h3>OU PODE SE TRANSFORMAR EM UMA NOVA FORMA DE ENXERGAR A SUA VIDA.</h3>
+          <p>Entre para o NeuroLeitura e descubra uma nova maneira de transformar leitura em conhecimento aplicado.</p>
+          <button className="nl-cta" onClick={scrollToPlans}>QUERO ENTRAR PARA O NEUROLEITURA</button>
+          <div className="nl-final-prices"><b>R$ 26/mês</b><span>ou</span><b>12x de R$ 20,37 | R$ 197 à vista no acesso anual</b></div>
+        </section>
+      </main>
+
+      <footer className="nl-footer">
+        <div><strong>NEUROLEITURA</strong><span>Instituto NeuroConsciência de Desenvolvimento Humano</span></div>
+        <nav><button>Termos de Uso</button><button>Política de Privacidade</button><button>Suporte</button></nav>
+        <p>© Instituto NeuroConsciência de Desenvolvimento Humano. Todos os direitos reservados.</p>
+      </footer>
+
+      <button className="nl-mobile-cta" onClick={scrollToPlans}>QUERO FAZER PARTE</button>
+    </div>
+  )
+}
+
+function PlanFeatures() {
+  return <ul className="nl-features">{['Área de membros premium', 'Aplicativo Instituto NeuroConsciência', 'Área Bônus de Evolução', 'Mentor I.A NeuroConsciência', 'I.A Decodificador de Livros', 'Workshops semanais', 'NeuroFlix'].map(item => <li key={item}><Check size={16} />{item}</li>)}</ul>
 }
